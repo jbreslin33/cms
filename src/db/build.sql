@@ -1,11 +1,28 @@
 --***************************************************************
 --******************  DROP TABLES *************************
 --**************************************************************
-DROP TABLE error_log; 
-DROP TABLE users 
-DROP TABLE roles;
-DROP TABLE users_roles;
-DROP TABLE clubs;
+DROP TABLE error_log CASCADE; 
+
+DROP TABLE gender CASCADE;
+
+DROP TABLE pitches CASCADE;
+
+
+DROP TABLE trainings_sessions CASCADE;
+DROP TABLE trainings CASCADE;
+DROP TABLE sessions CASCADE;
+
+DROP TABLE matches_teams CASCADE;
+DROP TABLE matches CASCADE;
+
+DROP TABLE users_roles CASCADE;
+DROP TABLE users CASCADE;
+DROP TABLE roles CASCADE;
+
+DROP TABLE teams CASCADE;
+
+DROP TABLE clubs CASCADE;
+
 
 
 --****************************************************************
@@ -72,18 +89,6 @@ CREATE TABLE clubs (
 	PRIMARY KEY (id)
 );
 
---TEACHER
-CREATE TABLE teachers (
-        id SERIAL,
-        name text,
-        password text,
-        school_id integer,
-        UNIQUE (name,school_id),
-        PRIMARY KEY (id),
-        FOREIGN KEY(school_id) REFERENCES schools(id)
-);
-
---ROOM
 CREATE TABLE pitches (
         id SERIAL,
         name text NOT NULL,
@@ -105,7 +110,9 @@ CREATE TABLE gender (
         PRIMARY KEY (id)
 );
 
-CREATE TABLE training (
+--TRAINING
+
+CREATE TABLE trainings (
         id SERIAL,
         start_time timestamp,
         end_time timestamp,
@@ -119,15 +126,16 @@ CREATE TABLE sessions (
         PRIMARY KEY (id)
 );
 
-CREATE TABLE training_sessions (
+CREATE TABLE trainings_sessions (
         id SERIAL,
-        training_id integer NOT NULL,
+        trainings_id integer NOT NULL,
         sessions_id integer NOT NULL,
         PRIMARY KEY (id),
-	FOREIGN KEY (training_id) REFERENCES training(id),
+	FOREIGN KEY (trainings_id) REFERENCES trainings(id),
 	FOREIGN KEY (sessions_id) REFERENCES sessions(id)
 );
 
+--MATCHES
 
 CREATE TABLE matches (
         id SERIAL,
@@ -136,19 +144,18 @@ CREATE TABLE matches (
         PRIMARY KEY (id)
 );
 
-
---TEAM_MATCH
-CREATE TABLE teams_matches (
+CREATE TABLE matches_teams (
         id SERIAL,
         matches_id integer NOT NULL,
+        team_id integer NOT NULL,
         score integer NOT NULL,
         PRIMARY KEY (id),
 	FOREIGN KEY (matches_id) REFERENCES matches(id),
 	FOREIGN KEY (team_id) REFERENCES teams(id)
 );
 
-
 --USERS
+
 CREATE TABLE users (
 	id SERIAL,
     	username text UNIQUE, 
@@ -162,3 +169,21 @@ CREATE TABLE users (
 	PRIMARY KEY (id),	
 	FOREIGN KEY (club_id) REFERENCES clubs(id)
 );
+
+CREATE TABLE roles (
+	id SERIAL,
+    	name text UNIQUE, 
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE users_roles (
+        id SERIAL,
+        users_id integer NOT NULL,
+        roles_id integer NOT NULL,
+	FOREIGN KEY (users_id) REFERENCES users(id),
+	FOREIGN KEY (roles_id) REFERENCES roles(id)
+);
+
+
+
+

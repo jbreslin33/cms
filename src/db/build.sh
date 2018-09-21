@@ -1,1 +1,2 @@
-sudo -u postgres psql -d jamesanthonybreslin -f src/database/build.sql
+sudo -u postgres createdb cms
+sudo -u postgres psql -d cms -f src/db/build.sql
