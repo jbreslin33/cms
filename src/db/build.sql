@@ -5,7 +5,6 @@ DROP TABLE error_log CASCADE;
 
 DROP TABLE gender CASCADE;
 
-DROP TABLE pitches CASCADE;
 
 
 DROP TABLE trainings_sessions CASCADE;
@@ -14,6 +13,8 @@ DROP TABLE sessions CASCADE;
 
 DROP TABLE matches_teams CASCADE;
 DROP TABLE matches CASCADE;
+
+DROP TABLE pitches CASCADE;
 
 DROP TABLE users_roles CASCADE;
 DROP TABLE users CASCADE;
@@ -24,6 +25,7 @@ DROP TABLE teams CASCADE;
 DROP TABLE clubs CASCADE;
 
 DROP TABLE states CASCADE;
+DROP TABLE home_away CASCADE;
 
 
 
@@ -104,7 +106,9 @@ CREATE TABLE pitches (
 CREATE TABLE teams (
         id SERIAL,
 	name text UNIQUE,
-        PRIMARY KEY (id)
+        club_id integer NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY(club_id) REFERENCES clubs(id)
 );
 
 CREATE TABLE gender (
@@ -119,7 +123,9 @@ CREATE TABLE trainings (
         id SERIAL,
         start_time timestamp,
         end_time timestamp,
-        PRIMARY KEY (id)
+	pitch_id integer,
+        PRIMARY KEY (id),
+	FOREIGN KEY (pitch_id) REFERENCES pitches(id)
 );
 
 CREATE TABLE sessions (
@@ -139,12 +145,27 @@ CREATE TABLE trainings_sessions (
 );
 
 --MATCHES
+-- home,away,nuetral
+CREATE TABLE home_away (
+	id SERIAL,
+	name text,
+        PRIMARY KEY (id)
+);
 
 CREATE TABLE matches (
         id SERIAL,
         start_time timestamp,
         end_time timestamp,
-        PRIMARY KEY (id)
+	street_address text, 	
+	city text, 	
+	state_id integer, 	
+	zip text, 	
+	pitch_id integer, 	
+	home_away_id integer, 	
+        PRIMARY KEY (id),
+	FOREIGN KEY (state_id) REFERENCES states(id),
+	FOREIGN KEY (home_away_id) REFERENCES home_away(id),
+	FOREIGN KEY (pitch_id) REFERENCES pitches(id)
 );
 
 CREATE TABLE matches_teams (
