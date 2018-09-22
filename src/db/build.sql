@@ -127,6 +127,28 @@ CREATE TABLE formations (
 	PRIMARY KEY (id)
 );
 
+--u3 u4 u19  
+CREATE TABLE age (
+	id SERIAL,
+    	name text UNIQUE, 
+	PRIMARY KEY (id)
+);
+
+--a b c  
+CREATE TABLE level (
+	id SERIAL,
+    	name text UNIQUE, 
+	PRIMARY KEY (id)
+);
+
+-- offense defense 
+CREATE TABLE offense_defense (
+	id SERIAL,
+    	name text UNIQUE, 
+	PRIMARY KEY (id)
+);
+
+
 
 
 CREATE TABLE trainings (
@@ -144,6 +166,8 @@ CREATE TABLE sessions (
         end_time timestamp,
         PRIMARY KEY (id)
 );
+	--formation_id integer,
+	--FOREIGN KEY (formation_id) REFERENCES formations(id)
 
 CREATE TABLE trainings_sessions (
         id SERIAL,
