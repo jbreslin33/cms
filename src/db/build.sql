@@ -27,6 +27,7 @@ DROP TABLE clubs CASCADE;
 DROP TABLE states CASCADE;
 DROP TABLE home_away CASCADE;
 
+DROP TABLE formations CASCADE;
 
 
 --****************************************************************
@@ -118,6 +119,15 @@ CREATE TABLE gender (
 );
 
 --TRAINING
+
+--442 433 451
+CREATE TABLE formations (
+	id SERIAL,
+    	name text UNIQUE, 
+	PRIMARY KEY (id)
+);
+
+
 
 CREATE TABLE trainings (
         id SERIAL,
@@ -213,7 +223,4 @@ CREATE TABLE users_roles (
 	FOREIGN KEY (users_id) REFERENCES users(id),
 	FOREIGN KEY (roles_id) REFERENCES roles(id)
 );
-
-
-
 
