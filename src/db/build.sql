@@ -18,11 +18,12 @@ DROP TABLE matches CASCADE;
 DROP TABLE users_roles CASCADE;
 DROP TABLE users CASCADE;
 DROP TABLE roles CASCADE;
-DROP TABLE states CASCADE;
 
 DROP TABLE teams CASCADE;
 
 DROP TABLE clubs CASCADE;
+
+DROP TABLE states CASCADE;
 
 
 
@@ -72,8 +73,11 @@ CREATE TABLE error_log
 	PRIMARY KEY (id) 	
 );
 
--- a free agent user should have a school and teacher automagically create for them with same username and passwod they must put in an email though even if not valid.
--- if you create a school then you can add teachers and students and change passwords etc.
+CREATE TABLE states (
+	id SERIAL,
+	name text,
+	PRIMARY KEY (id)	
+);
 
 -- a club should have admins in roles table
 CREATE TABLE clubs (
@@ -84,7 +88,7 @@ CREATE TABLE clubs (
         state_id integer NOT NULL,
         zip text NOT NULL,
 	PRIMARY KEY (id),
-        FOREIGN KEY(state_id) REFERENCES clubs(id)
+        FOREIGN KEY(state_id) REFERENCES states(id)
 );
 
 
@@ -151,12 +155,6 @@ CREATE TABLE matches_teams (
         PRIMARY KEY (id),
 	FOREIGN KEY (matches_id) REFERENCES matches(id),
 	FOREIGN KEY (team_id) REFERENCES teams(id)
-);
-
-CREATE TABLE states (
-	id SERIAL,
-	name text,
-	PRIMARY KEY (id)	
 );
 
 -- we are going with a single user table so we do not need multiple logins instead you just need one and choose what role you want to view. 
