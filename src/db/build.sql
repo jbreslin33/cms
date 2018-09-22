@@ -18,6 +18,7 @@ DROP TABLE matches CASCADE;
 DROP TABLE users_roles CASCADE;
 DROP TABLE users CASCADE;
 DROP TABLE roles CASCADE;
+DROP TABLE states CASCADE;
 
 DROP TABLE teams CASCADE;
 
@@ -74,20 +75,18 @@ CREATE TABLE error_log
 -- a free agent user should have a school and teacher automagically create for them with same username and passwod they must put in an email though even if not valid.
 -- if you create a school then you can add teachers and students and change passwords etc.
 
---SCHOOL
+-- a club should have admins in roles table
 CREATE TABLE clubs (
         id SERIAL,
-        username text NOT NULL UNIQUE,
         name text NOT NULL,
+        street_address text NOT NULL,
         city text NOT NULL,
-        state text NOT NULL,
+        state_id integer NOT NULL,
         zip text NOT NULL,
-        password text NOT NULL,
-        email text NOT NULL,
-        student_code text NOT NULL,
-        UNIQUE (name,city,state,zip),
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+        FOREIGN KEY(state_id) REFERENCES clubs(id)
 );
+
 
 CREATE TABLE pitches (
         id SERIAL,
@@ -154,8 +153,13 @@ CREATE TABLE matches_teams (
 	FOREIGN KEY (team_id) REFERENCES teams(id)
 );
 
---USERS
+CREATE TABLE states (
+	id SERIAL,
+	name text,
+	PRIMARY KEY (id)	
+);
 
+-- we are going with a single user table so we do not need multiple logins instead you just need one and choose what role you want to view. 
 CREATE TABLE users (
 	id SERIAL,
     	username text UNIQUE, 
@@ -163,19 +167,26 @@ CREATE TABLE users (
     	first_name text,
     	middle_name text,
     	last_name text,
+    	email text,
+    	phone text,
+    	street_address text,
+    	city text,
+    	state_id integer,
+    	zip text,
     	club_id integer DEFAULT 1, 
-     	last_activity timestamp,
-        banned_id integer NOT NULL default 0,
 	PRIMARY KEY (id),	
+	FOREIGN KEY (state_id) REFERENCES states(id),
 	FOREIGN KEY (club_id) REFERENCES clubs(id)
 );
 
+
+-- roles are director, coach, player, parent, manager, liason
 CREATE TABLE roles (
 	id SERIAL,
     	name text UNIQUE, 
 	PRIMARY KEY (id)
 );
-
+-- you choose what role you want to be at any time and that redoes gui
 CREATE TABLE users_roles (
         id SERIAL,
         users_id integer NOT NULL,
