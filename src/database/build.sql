@@ -4,7 +4,9 @@
 DROP TABLE error_log CASCADE; 
 
 DROP TABLE gender CASCADE;
-
+DROP TABLE age CASCADE;
+DROP TABLE level CASCADE;
+DROP TABLE offense_defense CASCADE;
 
 
 DROP TABLE trainings_sessions CASCADE;
