@@ -4,16 +4,16 @@
 --**************************************************************
 DROP TABLE error_log CASCADE; 
 
+DROP TABLE trainings_sessions CASCADE;
+DROP TABLE sessions CASCADE;
+DROP TABLE trainings CASCADE;
+
 DROP TABLE gender CASCADE;
 DROP TABLE age CASCADE;
 DROP TABLE level CASCADE;
 DROP TABLE possession CASCADE;
 DROP TABLE zone CASCADE;
 
-
-DROP TABLE trainings_sessions CASCADE;
-DROP TABLE trainings CASCADE;
-DROP TABLE sessions CASCADE;
 
 DROP TABLE matches_teams CASCADE;
 DROP TABLE matches CASCADE;
@@ -174,9 +174,17 @@ CREATE TABLE trainings (
 
 CREATE TABLE sessions (
         id SERIAL,
-        start_time timestamp,
-        end_time timestamp,
-        PRIMARY KEY (id)
+	gender_id integer,
+	age_id integer,
+	level_id integer,
+	possession_id integer,
+	zone_id integer,
+        PRIMARY KEY (id),
+	FOREIGN KEY (gender_id) REFERENCES gender(id),
+	FOREIGN KEY (age_id) REFERENCES age(id),
+	FOREIGN KEY (level_id) REFERENCES level(id),
+	FOREIGN KEY (possession_id) REFERENCES possession(id),
+	FOREIGN KEY (zone_id) REFERENCES zone(id)
 );
 	--formation_id integer,
 	--FOREIGN KEY (formation_id) REFERENCES formations(id)
