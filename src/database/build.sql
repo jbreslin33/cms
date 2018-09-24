@@ -4,6 +4,8 @@
 --**************************************************************
 DROP TABLE error_log CASCADE; 
 
+--DROP TABLE training CASCADE;
+--DROP TABLE training_sessions CASCADE;
 DROP TABLE trainings_sessions CASCADE;
 DROP TABLE sessions CASCADE;
 DROP TABLE trainings CASCADE;
@@ -194,6 +196,8 @@ CREATE TABLE trainings_sessions (
         id SERIAL,
         trainings_id integer NOT NULL,
         sessions_id integer NOT NULL,
+        start_time timestamp,
+        end_time timestamp,
         PRIMARY KEY (id),
 	FOREIGN KEY (trainings_id) REFERENCES trainings(id),
 	FOREIGN KEY (sessions_id) REFERENCES sessions(id)
@@ -247,17 +251,14 @@ CREATE TABLE users (
     	city text,
     	state_id integer,
     	zip text,
-    	club_id integer DEFAULT 1, 
 	PRIMARY KEY (id),	
-	FOREIGN KEY (state_id) REFERENCES states(id),
-	FOREIGN KEY (club_id) REFERENCES clubs(id)
+	FOREIGN KEY (state_id) REFERENCES states(id)
 );
 
 CREATE TABLE clubs_users (
-        id SERIAL,
 	club_id integer NOT NULL,
 	user_id integer NOT NULL,
-	PRIMARY KEY (id),	
+	PRIMARY KEY (club_id,user_id),	
 	FOREIGN KEY (club_id) REFERENCES clubs(id),
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -275,9 +276,9 @@ CREATE TABLE roles (
 );
 -- you choose what role you want to be at any time and that redoes gui
 CREATE TABLE users_roles (
-        id SERIAL,
         users_id integer NOT NULL,
         roles_id integer NOT NULL,
+	PRIMARY KEY (users_id,roles_id),
 	FOREIGN KEY (users_id) REFERENCES users(id),
 	FOREIGN KEY (roles_id) REFERENCES roles(id)
 );
