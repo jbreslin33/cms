@@ -21,6 +21,7 @@ DROP TABLE matches CASCADE;
 DROP TABLE pitches CASCADE;
 
 DROP TABLE users_roles CASCADE;
+DROP TABLE clubs_users CASCADE;
 DROP TABLE users CASCADE;
 DROP TABLE roles CASCADE;
 
@@ -251,6 +252,19 @@ CREATE TABLE users (
 	FOREIGN KEY (state_id) REFERENCES states(id),
 	FOREIGN KEY (club_id) REFERENCES clubs(id)
 );
+
+CREATE TABLE clubs_users (
+        id SERIAL,
+	club_id integer NOT NULL,
+	user_id integer NOT NULL,
+	PRIMARY KEY (id),	
+	FOREIGN KEY (club_id) REFERENCES clubs(id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
+	
+	
+
+	 
 
 
 -- roles are director, coach, player, parent, manager, liason
