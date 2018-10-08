@@ -185,8 +185,11 @@ CREATE TABLE sessions (
 	formation_id integer,
 	age_id integer,
 	level_id integer,
-	possession_id integer,
+	possession_id integer, --offense transition defense
 	zone_id integer,
+	keepers_needed integer, --keepers needed
+	number_of_players integer, --this will allow for quick modifications to session
+	url text, --link
         PRIMARY KEY (id),
 	FOREIGN KEY (gender_id) REFERENCES gender(id),
 	FOREIGN KEY (formation_id) REFERENCES formations(id),
