@@ -5,11 +5,7 @@
 
 DROP TABLE error_log CASCADE; 
 
---DROP TABLE training CASCADE;
---DROP TABLE training_sessions CASCADE;
 DROP TABLE trainings_users_availability CASCADE;
-DROP TABLE user_trainings_availability CASCADE;
-DROP TABLE availability CASCADE;
 DROP TABLE trainings_sessions CASCADE;
 DROP TABLE sessions CASCADE;
 DROP TABLE trainings CASCADE;
@@ -21,6 +17,7 @@ DROP TABLE possession CASCADE;
 DROP TABLE zone CASCADE;
 
 
+DROP TABLE matches_users_availability CASCADE;
 DROP TABLE matches_teams CASCADE;
 DROP TABLE matches CASCADE;
 
@@ -39,6 +36,7 @@ DROP TABLE states CASCADE;
 DROP TABLE home_away CASCADE;
 
 DROP TABLE formations CASCADE;
+DROP TABLE availability CASCADE;
 
 
 --****************************************************************
@@ -307,6 +305,17 @@ CREATE TABLE trainings_users_availability (
 	availability_id integer NOT NULL,
         PRIMARY KEY (id),
 	FOREIGN KEY (trainings_id) REFERENCES trainings(id),
+	FOREIGN KEY (users_id) REFERENCES users(id),
+	FOREIGN KEY (availability_id) REFERENCES availability(id)
+);
+
+CREATE TABLE matches_users_availability (
+        id SERIAL,
+        matches_id integer NOT NULL,
+       	users_id integer NOT NULL,
+	availability_id integer NOT NULL,
+        PRIMARY KEY (id),
+	FOREIGN KEY (matches_id) REFERENCES matches(id),
 	FOREIGN KEY (users_id) REFERENCES users(id),
 	FOREIGN KEY (availability_id) REFERENCES availability(id)
 );
