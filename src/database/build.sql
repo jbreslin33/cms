@@ -2,10 +2,13 @@
 --***************************************************************
 --******************  DROP TABLES *************************
 --**************************************************************
+
 DROP TABLE error_log CASCADE; 
 
 --DROP TABLE training CASCADE;
 --DROP TABLE training_sessions CASCADE;
+DROP TABLE users_trainings_availability CASCADE;
+DROP TABLE availability CASCADE;
 DROP TABLE trainings_sessions CASCADE;
 DROP TABLE sessions CASCADE;
 DROP TABLE trainings CASCADE;
@@ -170,8 +173,10 @@ CREATE TABLE trainings (
         id SERIAL,
         start_time timestamp,
         end_time timestamp,
+	team_id integer,
 	pitch_id integer,
         PRIMARY KEY (id),
+	FOREIGN KEY (team_id) REFERENCES teams(id),
 	FOREIGN KEY (pitch_id) REFERENCES pitches(id)
 );
 
@@ -202,6 +207,15 @@ CREATE TABLE trainings_sessions (
 	FOREIGN KEY (trainings_id) REFERENCES trainings(id),
 	FOREIGN KEY (sessions_id) REFERENCES sessions(id)
 );
+
+CREATE TABLE availability (
+	id SERIAL,
+	name text,
+        PRIMARY KEY (id)
+);
+
+
+
 
 --MATCHES
 -- home,away,nuetral
@@ -240,7 +254,7 @@ CREATE TABLE matches_teams (
 -- we are going with a single user table so we do not need multiple logins instead you just need one and choose what role you want to view. 
 CREATE TABLE users (
 	id SERIAL,
-    	username text UNIQUE, 
+    	username text NOT NULL UNIQUE, 
     	password text,
     	first_name text,
     	middle_name text,
@@ -283,3 +297,13 @@ CREATE TABLE users_roles (
 	FOREIGN KEY (roles_id) REFERENCES roles(id)
 );
 
+CREATE TABLE users_trainings_availability (
+        id SERIAL,
+       	users_id integer NOT NULL,
+        trainings_id integer NOT NULL,
+	availability_id integer NOT NULL,
+        PRIMARY KEY (id),
+	FOREIGN KEY (availability_id) REFERENCES availability(id),
+	FOREIGN KEY (users_id) REFERENCES users(id),
+	FOREIGN KEY (trainings_id) REFERENCES trainings(id)
+);
