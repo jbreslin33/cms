@@ -7,7 +7,8 @@ DROP TABLE error_log CASCADE;
 
 --DROP TABLE training CASCADE;
 --DROP TABLE training_sessions CASCADE;
-DROP TABLE users_trainings_availability CASCADE;
+DROP TABLE trainings_users_availability CASCADE;
+DROP TABLE user_trainings_availability CASCADE;
 DROP TABLE availability CASCADE;
 DROP TABLE trainings_sessions CASCADE;
 DROP TABLE sessions CASCADE;
@@ -299,13 +300,13 @@ CREATE TABLE users_roles (
 	FOREIGN KEY (roles_id) REFERENCES roles(id)
 );
 
-CREATE TABLE users_trainings_availability (
+CREATE TABLE trainings_users_availability (
         id SERIAL,
-       	users_id integer NOT NULL,
         trainings_id integer NOT NULL,
+       	users_id integer NOT NULL,
 	availability_id integer NOT NULL,
         PRIMARY KEY (id),
-	FOREIGN KEY (availability_id) REFERENCES availability(id),
+	FOREIGN KEY (trainings_id) REFERENCES trainings(id),
 	FOREIGN KEY (users_id) REFERENCES users(id),
-	FOREIGN KEY (trainings_id) REFERENCES trainings(id)
+	FOREIGN KEY (availability_id) REFERENCES availability(id)
 );
