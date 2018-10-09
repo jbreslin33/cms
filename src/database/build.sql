@@ -7,7 +7,6 @@ DROP TABLE error_log CASCADE;
 
 DROP TABLE genders_sessions CASCADE;
 
-DROP TABLE uniforms CASCADE;
 
 DROP TABLE genders CASCADE;
 DROP TABLE age CASCADE;
@@ -15,7 +14,6 @@ DROP TABLE level CASCADE;
 DROP TABLE possession CASCADE;
 DROP TABLE zone CASCADE;
 
-DROP TABLE event CASCADE;
 
 DROP TABLE trainings_users_availability CASCADE;
 DROP TABLE trainings_sessions CASCADE;
@@ -25,6 +23,8 @@ DROP TABLE trainings CASCADE;
 
 DROP TABLE uniforms_events CASCADE;
 DROP TABLE uniforms_order CASCADE;
+DROP TABLE uniforms CASCADE;
+
 
 DROP TABLE matches_users_availability CASCADE;
 DROP TABLE matches_teams CASCADE;
@@ -48,6 +48,7 @@ DROP TABLE formations CASCADE;
 DROP TABLE availability CASCADE;
 
 DROP TABLE events CASCADE;
+DROP TABLE event CASCADE;
 
 --****************************************************************
 --***************************************************************
@@ -230,7 +231,8 @@ CREATE TABLE uniforms_events (
 	uniforms_order_id integer,
 	events_id integer,
         PRIMARY KEY (id),
-	FOREIGN KEY (events_id) REFERENCES events(id)
+	FOREIGN KEY (events_id) REFERENCES events(id),
+	FOREIGN KEY (uniforms_order_id) REFERENCES uniforms_order(id)
 );
 
 CREATE TABLE trainings (
