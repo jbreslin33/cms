@@ -254,12 +254,12 @@ CREATE TABLE sessions (
 
 CREATE TABLE trainings_sessions (
         id SERIAL,
-        trainings_id integer NOT NULL,
+        event_id integer NOT NULL,
         sessions_id integer NOT NULL,
         start_time timestamp,
         end_time timestamp,
         PRIMARY KEY (id),
-	FOREIGN KEY (trainings_id) REFERENCES trainings(id),
+	FOREIGN KEY (event_id) REFERENCES events(id),
 	FOREIGN KEY (sessions_id) REFERENCES sessions(id)
 );
 
