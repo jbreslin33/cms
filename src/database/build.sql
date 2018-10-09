@@ -5,6 +5,9 @@
 
 DROP TABLE error_log CASCADE; 
 
+DROP TABLE sessions_media CASCADE; 
+DROP TABLE media CASCADE; 
+
 DROP TABLE genders_sessions CASCADE;
 
 DROP TABLE genders CASCADE;
@@ -237,6 +240,23 @@ CREATE TABLE uniforms_events (
 CREATE TABLE sessions (
         id SERIAL,
 	url text UNIQUE, --link
+        PRIMARY KEY (id)
+);
+
+CREATE TABLE media (
+	id SERIAL,
+	name text, --pic, text, video, link
+        PRIMARY KEY (id)
+);
+
+
+CREATE TABLE sessions_media (
+	id SERIAL,
+	sessions_id integer,
+	media_id integer, --picture, text, video, link
+	url text, 
+	FOREIGN KEY (media_id) REFERENCES media(id),
+	FOREIGN KEY (sessions_id) REFERENCES sessions(id),
         PRIMARY KEY (id)
 );
 
