@@ -229,11 +229,48 @@ CREATE TABLE events (
 
 CREATE TABLE practices (
         id SERIAL,
-        PRIMARY KEY (id)
+
+	--time
+        arrival_time timestamp, --only 1 arrival time leave it
+        start_time timestamp, --only 1 start time leave it
+        end_time timestamp,
+
+	--place for place just use what manager wants string, url, full field address or simply pitch id
+	address text, --this could be link or string 	
+	street_address text, 	
+	city text, 	
+	state_id integer, 	
+	zip text, 	
+	pitch_id integer, --all you need for a practice	
+	field_name text, --field 3, field A, 9v9 field etc if nothing in db
+        
+	--details
+
+	FOREIGN KEY (pitch_id) REFERENCES pitches(id),
+	FOREIGN KEY (state_id) REFERENCES states(id),
+	PRIMARY KEY (id)
 );
 
 CREATE TABLE games (
         id SERIAL,
+	
+	--time
+        arrival_time timestamp, --only 1 arrival time leave it
+        start_time timestamp, --only 1 start time leave it
+        end_time timestamp,
+	
+	--place for place just use what manager wants string, url, full field address or simply pitch id
+	address text, --this could be link or string 	
+	street_address text, 	
+	city text, 	
+	state_id integer, 	
+	zip text, 	
+	pitch_id integer, --all you need for a practice, is this needed for games or just field name below?	
+	field_name text, --field 3, field A, 9v9 field etc
+	
+	FOREIGN KEY (pitch_id) REFERENCES pitches(id),
+	FOREIGN KEY (state_id) REFERENCES states(id),
+
         PRIMARY KEY (id)
 );
 	
