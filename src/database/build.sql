@@ -212,7 +212,8 @@ CREATE TABLE events (
 	notes text, 	
         PRIMARY KEY (id),
 	FOREIGN KEY (event_id) REFERENCES event(id),
-	FOREIGN KEY (pitch_id) REFERENCES pitches(id)
+	FOREIGN KEY (pitch_id) REFERENCES pitches(id),
+	FOREIGN KEY (state_id) REFERENCES states(id)
 
 );
 
