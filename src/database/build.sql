@@ -236,7 +236,7 @@ CREATE TABLE uniforms_events (
 
 CREATE TABLE sessions (
         id SERIAL,
-	url text, --link
+	url text UNIQUE, --link
         PRIMARY KEY (id)
 );
 
