@@ -243,9 +243,12 @@ CREATE TABLE practices (
 	zip text, 	
 	pitch_id integer, --all you need for a practice	
 	field_name text, --field 3, field A, 9v9 field etc if nothing in db
-        
+       
+	team_id integer,
+
 	--details
 
+	FOREIGN KEY (team_id) REFERENCES teams(id),
 	FOREIGN KEY (pitch_id) REFERENCES pitches(id),
 	FOREIGN KEY (state_id) REFERENCES states(id),
 	PRIMARY KEY (id)
@@ -268,6 +271,9 @@ CREATE TABLE games (
 	pitch_id integer, --all you need for a practice, is this needed for games or just field name below?	
 	field_name text, --field 3, field A, 9v9 field etc
 	
+	team_id integer,
+	
+	FOREIGN KEY (team_id) REFERENCES teams(id),
 	FOREIGN KEY (pitch_id) REFERENCES pitches(id),
 	FOREIGN KEY (state_id) REFERENCES states(id),
 
