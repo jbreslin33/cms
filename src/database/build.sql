@@ -5,16 +5,19 @@
 
 DROP TABLE error_log CASCADE; 
 
+DROP TABLE genders_sessions CASCADE;
+DROP TABLE genders CASCADE;
+DROP TABLE age CASCADE;
+DROP TABLE level CASCADE;
+DROP TABLE possession CASCADE;
+DROP TABLE zone CASCADE;
+
+
 DROP TABLE trainings_users_availability CASCADE;
 DROP TABLE trainings_sessions CASCADE;
 DROP TABLE sessions CASCADE;
 DROP TABLE trainings CASCADE;
 
-DROP TABLE gender CASCADE;
-DROP TABLE age CASCADE;
-DROP TABLE level CASCADE;
-DROP TABLE possession CASCADE;
-DROP TABLE zone CASCADE;
 
 
 DROP TABLE matches_users_availability CASCADE;
@@ -121,13 +124,14 @@ CREATE TABLE teams (
         FOREIGN KEY(club_id) REFERENCES clubs(id)
 );
 
-CREATE TABLE gender (
+
+--FOR SESSIONS LATER
+CREATE TABLE genders (
         id SERIAL,
 	name text UNIQUE,
         PRIMARY KEY (id)
 );
 
---TRAINING
 
 --442 433 451
 CREATE TABLE formations (
@@ -181,25 +185,9 @@ CREATE TABLE trainings (
 
 CREATE TABLE sessions (
         id SERIAL,
-	gender_id integer,
-	formation_id integer,
-	age_id integer,
-	level_id integer,
-	possession_id integer, --offense transition defense
-	zone_id integer,
-	keepers_needed integer, --keepers needed
-	number_of_players integer, --this will allow for quick modifications to session
 	url text, --link
-        PRIMARY KEY (id),
-	FOREIGN KEY (gender_id) REFERENCES gender(id),
-	FOREIGN KEY (formation_id) REFERENCES formations(id),
-	FOREIGN KEY (age_id) REFERENCES age(id),
-	FOREIGN KEY (level_id) REFERENCES level(id),
-	FOREIGN KEY (possession_id) REFERENCES possession(id),
-	FOREIGN KEY (zone_id) REFERENCES zone(id)
+        PRIMARY KEY (id)
 );
-	--formation_id integer,
-	--FOREIGN KEY (formation_id) REFERENCES formations(id)
 
 CREATE TABLE trainings_sessions (
         id SERIAL,
@@ -218,6 +206,16 @@ CREATE TABLE availability (
         PRIMARY KEY (id)
 );
 
+--search fields for sessions
+
+CREATE TABLE genders_sessions (
+        id SERIAL,
+	gender_id integer,
+	session_id integer,
+        PRIMARY KEY (id),
+        FOREIGN KEY(gender_id) REFERENCES genders(id),
+        FOREIGN KEY(session_id) REFERENCES sessions(id)
+);
 
 
 
