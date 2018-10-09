@@ -213,7 +213,8 @@ CREATE TABLE events (
 
 
 	notes text, 	
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+	FOREIGN KEY (event_id) REFERENCES event(id)
 
 );
 
@@ -228,11 +229,9 @@ CREATE TABLE uniforms_events (
 	uniform_id integer,
 	uniforms_order_id integer,
 	events_id integer,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+	FOREIGN KEY (events_id) REFERENCES events(id)
 );
-	
-
-
 
 CREATE TABLE trainings (
         id SERIAL,
