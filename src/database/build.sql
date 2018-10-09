@@ -15,22 +15,18 @@ DROP TABLE possession CASCADE;
 DROP TABLE zone CASCADE;
 
 
-DROP TABLE trainings_users_availability CASCADE;
-DROP TABLE trainings_sessions CASCADE;
-DROP TABLE sessions CASCADE;
-DROP TABLE trainings CASCADE;
+DROP TABLE events_users_availability CASCADE;
 
+DROP TABLE events_sessions CASCADE;
+DROP TABLE sessions CASCADE;
 
 DROP TABLE uniforms_events CASCADE;
 DROP TABLE uniforms_order CASCADE;
 DROP TABLE uniforms CASCADE;
 
 
-DROP TABLE matches_users_availability CASCADE;
-DROP TABLE matches_teams CASCADE;
-DROP TABLE matches CASCADE;
+DROP TABLE events_teams CASCADE;
 
-DROP TABLE pitches CASCADE;
 
 DROP TABLE users_roles CASCADE;
 DROP TABLE clubs_users CASCADE;
@@ -39,9 +35,7 @@ DROP TABLE roles CASCADE;
 
 DROP TABLE teams CASCADE;
 
-DROP TABLE clubs CASCADE;
 
-DROP TABLE states CASCADE;
 DROP TABLE home_away CASCADE;
 
 DROP TABLE formations CASCADE;
@@ -50,6 +44,9 @@ DROP TABLE availability CASCADE;
 DROP TABLE events CASCADE;
 DROP TABLE event CASCADE;
 
+DROP TABLE pitches CASCADE;
+DROP TABLE clubs CASCADE;
+DROP TABLE states CASCADE;
 --****************************************************************
 --***************************************************************
 --******************  POSTGRESQL SETTINGS *************************
@@ -215,7 +212,8 @@ CREATE TABLE events (
 
 	notes text, 	
         PRIMARY KEY (id),
-	FOREIGN KEY (event_id) REFERENCES event(id)
+	FOREIGN KEY (event_id) REFERENCES event(id),
+	FOREIGN KEY (pitch_id) REFERENCES pitches(id)
 
 );
 
@@ -235,16 +233,6 @@ CREATE TABLE uniforms_events (
 	FOREIGN KEY (uniforms_order_id) REFERENCES uniforms_order(id)
 );
 
-CREATE TABLE trainings (
-        id SERIAL,
-        start_time timestamp,
-        end_time timestamp,
-	team_id integer,
-	pitch_id integer,
-        PRIMARY KEY (id),
-	FOREIGN KEY (team_id) REFERENCES teams(id),
-	FOREIGN KEY (pitch_id) REFERENCES pitches(id)
-);
 
 CREATE TABLE sessions (
         id SERIAL,
@@ -252,7 +240,7 @@ CREATE TABLE sessions (
         PRIMARY KEY (id)
 );
 
-CREATE TABLE trainings_sessions (
+CREATE TABLE events_sessions (
         id SERIAL,
         event_id integer NOT NULL,
         sessions_id integer NOT NULL,
@@ -290,29 +278,13 @@ CREATE TABLE home_away (
         PRIMARY KEY (id)
 );
 
-CREATE TABLE matches (
+CREATE TABLE events_teams (
         id SERIAL,
-        start_time timestamp,
-        end_time timestamp,
-	street_address text, 	
-	city text, 	
-	state_id integer, 	
-	zip text, 	
-	pitch_id integer, 	
-	home_away_id integer, 	
-        PRIMARY KEY (id),
-	FOREIGN KEY (state_id) REFERENCES states(id),
-	FOREIGN KEY (home_away_id) REFERENCES home_away(id),
-	FOREIGN KEY (pitch_id) REFERENCES pitches(id)
-);
-
-CREATE TABLE matches_teams (
-        id SERIAL,
-        matches_id integer NOT NULL,
+        events_id integer NOT NULL,
         team_id integer NOT NULL,
         score integer NOT NULL,
         PRIMARY KEY (id),
-	FOREIGN KEY (matches_id) REFERENCES matches(id),
+	FOREIGN KEY (events_id) REFERENCES events(id),
 	FOREIGN KEY (team_id) REFERENCES teams(id)
 );
 
@@ -362,24 +334,14 @@ CREATE TABLE users_roles (
 	FOREIGN KEY (roles_id) REFERENCES roles(id)
 );
 
-CREATE TABLE trainings_users_availability (
+CREATE TABLE events_users_availability (
         id SERIAL,
-        trainings_id integer NOT NULL,
+        events_id integer NOT NULL,
        	users_id integer NOT NULL,
 	availability_id integer NOT NULL,
         PRIMARY KEY (id),
-	FOREIGN KEY (trainings_id) REFERENCES trainings(id),
+	FOREIGN KEY (events_id) REFERENCES events(id),
 	FOREIGN KEY (users_id) REFERENCES users(id),
 	FOREIGN KEY (availability_id) REFERENCES availability(id)
 );
 
-CREATE TABLE matches_users_availability (
-        id SERIAL,
-        matches_id integer NOT NULL,
-       	users_id integer NOT NULL,
-	availability_id integer NOT NULL,
-        PRIMARY KEY (id),
-	FOREIGN KEY (matches_id) REFERENCES matches(id),
-	FOREIGN KEY (users_id) REFERENCES users(id),
-	FOREIGN KEY (availability_id) REFERENCES availability(id)
-);
