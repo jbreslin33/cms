@@ -22,6 +22,9 @@ DROP TABLE events_users_availability CASCADE;
 DROP TABLE events_sessions CASCADE;
 DROP TABLE sessions CASCADE;
 
+DROP TABLE matches CASCADE;
+
+
 DROP TABLE uniforms_events CASCADE;
 DROP TABLE uniforms_order CASCADE;
 DROP TABLE uniforms CASCADE;
@@ -35,7 +38,6 @@ DROP TABLE clubs_users CASCADE;
 DROP TABLE users CASCADE;
 DROP TABLE roles CASCADE;
 
-DROP TABLE teams CASCADE;
 
 
 DROP TABLE home_away CASCADE;
@@ -46,6 +48,7 @@ DROP TABLE availability CASCADE;
 DROP TABLE events CASCADE;
 DROP TABLE event CASCADE;
 
+DROP TABLE teams CASCADE;
 DROP TABLE pitches CASCADE;
 DROP TABLE clubs CASCADE;
 DROP TABLE states CASCADE;
@@ -212,10 +215,14 @@ CREATE TABLE events (
         event_id integer, --practice match meeting
 
 
+        team_id integer, --interal club team
+
+
 	notes text, 	
         PRIMARY KEY (id),
 	FOREIGN KEY (event_id) REFERENCES event(id),
 	FOREIGN KEY (pitch_id) REFERENCES pitches(id),
+	FOREIGN KEY (team_id) REFERENCES teams(id),
 	FOREIGN KEY (state_id) REFERENCES states(id)
 
 );
@@ -269,6 +276,13 @@ CREATE TABLE events_sessions (
         PRIMARY KEY (id),
 	FOREIGN KEY (event_id) REFERENCES events(id),
 	FOREIGN KEY (sessions_id) REFERENCES sessions(id)
+);
+
+CREATE TABLE matches (
+        id SERIAL,
+        event_id integer NOT NULL,
+        PRIMARY KEY (id),
+	FOREIGN KEY (event_id) REFERENCES events(id)
 );
 
 CREATE TABLE availability (
