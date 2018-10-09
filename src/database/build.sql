@@ -6,12 +6,16 @@
 DROP TABLE error_log CASCADE; 
 
 DROP TABLE genders_sessions CASCADE;
+
+DROP TABLE uniforms CASCADE;
+
 DROP TABLE genders CASCADE;
 DROP TABLE age CASCADE;
 DROP TABLE level CASCADE;
 DROP TABLE possession CASCADE;
 DROP TABLE zone CASCADE;
 
+DROP TABLE event CASCADE;
 
 DROP TABLE trainings_users_availability CASCADE;
 DROP TABLE trainings_sessions CASCADE;
@@ -19,6 +23,8 @@ DROP TABLE sessions CASCADE;
 DROP TABLE trainings CASCADE;
 
 
+DROP TABLE uniforms_events CASCADE;
+DROP TABLE uniforms_order CASCADE;
 
 DROP TABLE matches_users_availability CASCADE;
 DROP TABLE matches_teams CASCADE;
@@ -41,6 +47,7 @@ DROP TABLE home_away CASCADE;
 DROP TABLE formations CASCADE;
 DROP TABLE availability CASCADE;
 
+DROP TABLE events CASCADE;
 
 --****************************************************************
 --***************************************************************
@@ -124,6 +131,13 @@ CREATE TABLE teams (
         FOREIGN KEY(club_id) REFERENCES clubs(id)
 );
 
+--EVENT
+CREATE TABLE event (
+        id SERIAL,
+	name text UNIQUE, --practice, match, meeting etc
+        PRIMARY KEY (id)
+);
+
 
 --FOR SESSIONS LATER
 CREATE TABLE genders (
@@ -168,7 +182,55 @@ CREATE TABLE zone (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE uniforms (
+	id SERIAL,
+    	name text UNIQUE, 
+	PRIMARY KEY (id)
+);
 
+
+--select * from events where event_id = 1 AND pitch_id = 4
+CREATE TABLE events (
+        id SERIAL,
+
+	--time
+        arrival_time timestamp, --only 1 arrival time leave it
+        start_time timestamp, --only 1 start time leave it
+        end_time timestamp,
+
+	--place for place just use what manager wants string, url, full field address or simply pitch id
+	address text, --this could be link or string 	
+	street_address text, 	
+	city text, 	
+	state_id integer, 	
+	zip text, 	
+	pitch_id integer, --all you need for a practice	
+	field_name text, --field 3, field A, 9v9 field etc
+
+	--details
+	home_away_id integer,  --only one but dont need it always	
+        event_id integer, --practice match meeting
+
+
+	notes text, 	
+        PRIMARY KEY (id)
+
+);
+
+CREATE TABLE uniforms_order (
+	id SERIAL,
+	name text, --primary, secondary, tertiary
+        PRIMARY KEY (id)
+);
+
+CREATE TABLE uniforms_events (
+	id SERIAL,
+	uniform_id integer,
+	uniforms_order_id integer,
+	events_id integer,
+        PRIMARY KEY (id)
+);
+	
 
 
 
