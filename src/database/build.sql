@@ -7,7 +7,6 @@ DROP TABLE error_log CASCADE;
 
 DROP TABLE genders_sessions CASCADE;
 
-
 DROP TABLE genders CASCADE;
 DROP TABLE age CASCADE;
 DROP TABLE level CASCADE;
