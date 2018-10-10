@@ -16,7 +16,6 @@ DROP TABLE level CASCADE;
 DROP TABLE possession CASCADE;
 DROP TABLE zone CASCADE;
 
-
 DROP TABLE practices_users_attendance CASCADE;
 DROP TABLE practices_users_availability CASCADE;
 DROP TABLE games_users_attendance CASCADE;
@@ -25,29 +24,25 @@ DROP TABLE games_users_availability CASCADE;
 DROP TABLE practices_sessions CASCADE;
 DROP TABLE sessions CASCADE;
 
-DROP TABLE uniforms_events CASCADE;
+DROP TABLE uniforms_games CASCADE;
 DROP TABLE uniforms_order CASCADE;
 DROP TABLE uniforms CASCADE;
 
 
-DROP TABLE events_teams CASCADE;
+DROP TABLE users_system_roles CASCADE; --admin, data-entry
+DROP TABLE users_clubs_roles CASCADE; -- techninal director, cfo, coordinator, cms-admin, board member, president, ceo 
+DROP TABLE users_teams_roles CASCADE; --player, coach, manager, liason, parent
 
-
-DROP TABLE users_roles CASCADE;
-DROP TABLE clubs_users CASCADE;
-DROP TABLE users CASCADE;
 DROP TABLE roles CASCADE;
 
-
-
-DROP TABLE home_away CASCADE;
+DROP TABLE system_users CASCADE;
+DROP TABLE clubs_users CASCADE;
+DROP TABLE teams_users CASCADE;
+DROP TABLE users CASCADE;
 
 DROP TABLE formations CASCADE;
 DROP TABLE availability CASCADE;
 DROP TABLE attendance CASCADE;
-
-DROP TABLE events CASCADE;
-DROP TABLE event CASCADE;
 
 DROP TABLE practices CASCADE;
 DROP TABLE games CASCADE;
@@ -138,14 +133,6 @@ CREATE TABLE teams (
         FOREIGN KEY(club_id) REFERENCES clubs(id)
 );
 
---EVENT
-CREATE TABLE event (
-        id SERIAL,
-	name text UNIQUE, --practice, match, meeting etc
-        PRIMARY KEY (id)
-);
-
-
 --FOR SESSIONS LATER
 CREATE TABLE genders (
         id SERIAL,
@@ -195,41 +182,6 @@ CREATE TABLE uniforms (
 	PRIMARY KEY (id)
 );
 
-
---select * from events where event_id = 1 AND pitch_id = 4
-CREATE TABLE events (
-        id SERIAL,
-
-	--time
-        arrival_time timestamp, --only 1 arrival time leave it
-        start_time timestamp, --only 1 start time leave it
-        end_time timestamp,
-
-	--place for place just use what manager wants string, url, full field address or simply pitch id
-	address text, --this could be link or string 	
-	street_address text, 	
-	city text, 	
-	state_id integer, 	
-	zip text, 	
-	pitch_id integer, --all you need for a practice	
-	field_name text, --field 3, field A, 9v9 field etc
-
-	--details
-	home_away_id integer,  --only one but dont need it always	
-        event_id integer, --practice match meeting
-
-
-        team_id integer, --interal club team
-
-
-	notes text, 	
-        PRIMARY KEY (id),
-	FOREIGN KEY (event_id) REFERENCES event(id),
-	FOREIGN KEY (pitch_id) REFERENCES pitches(id),
-	FOREIGN KEY (team_id) REFERENCES teams(id),
-	FOREIGN KEY (state_id) REFERENCES states(id)
-
-);
 
 CREATE TABLE practices (
         id SERIAL,
@@ -292,13 +244,13 @@ CREATE TABLE uniforms_order (
         PRIMARY KEY (id)
 );
 
-CREATE TABLE uniforms_events (
+CREATE TABLE uniforms_games (
 	id SERIAL,
 	uniform_id integer,
 	uniforms_order_id integer,
-	events_id integer,
+	game_id integer,
         PRIMARY KEY (id),
-	FOREIGN KEY (events_id) REFERENCES events(id),
+	FOREIGN KEY (game_id) REFERENCES games(id),
 	FOREIGN KEY (uniforms_order_id) REFERENCES uniforms_order(id)
 );
 
@@ -362,24 +314,6 @@ CREATE TABLE genders_sessions (
 
 
 
---MATCHES
--- home,away,nuetral
-CREATE TABLE home_away (
-	id SERIAL,
-	name text,
-        PRIMARY KEY (id)
-);
-
-CREATE TABLE events_teams (
-        id SERIAL,
-        events_id integer NOT NULL,
-        team_id integer NOT NULL,
-        score integer NOT NULL,
-        PRIMARY KEY (id),
-	FOREIGN KEY (events_id) REFERENCES events(id),
-	FOREIGN KEY (team_id) REFERENCES teams(id)
-);
-
 -- we are going with a single user table so we do not need multiple logins instead you just need one and choose what role you want to view. 
 CREATE TABLE users (
 	id SERIAL,
@@ -399,32 +333,71 @@ CREATE TABLE users (
 );
 
 CREATE TABLE clubs_users (
-	club_id integer NOT NULL,
+	id SERIAL,
 	user_id integer NOT NULL,
-	PRIMARY KEY (club_id,user_id),	
+	club_id integer NOT NULL,
+	UNIQUE (user_id, club_id),	
 	FOREIGN KEY (club_id) REFERENCES clubs(id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE teams_users (
+	user_id integer NOT NULL,
+	team_id integer NOT NULL,
+	PRIMARY KEY (user_id, team_id),	
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (team_id) REFERENCES teams(id)
+);
+
+CREATE TABLE system_users (
+	id SERIAL,
+	user_id integer NOT NULL,
+	PRIMARY KEY (id),	
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 	
 	
-
-	 
-
-
--- roles are director, coach, player, parent, manager, liason
+	
+	
 CREATE TABLE roles (
 	id SERIAL,
-    	name text UNIQUE, 
+	name text,
 	PRIMARY KEY (id)
 );
+
 -- you choose what role you want to be at any time and that redoes gui
-CREATE TABLE users_roles (
+CREATE TABLE users_system_roles (
+        id SERIAL,
+        user_id integer NOT NULL,
+        role_id integer NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+CREATE TABLE users_clubs_roles (
+        id SERIAL,
         users_id integer NOT NULL,
+       	club_id integer NOT NULL,
         roles_id integer NOT NULL,
-	PRIMARY KEY (users_id,roles_id),
+	PRIMARY KEY (id),
 	FOREIGN KEY (users_id) REFERENCES users(id),
+	FOREIGN KEY (club_id) REFERENCES clubs(id),
 	FOREIGN KEY (roles_id) REFERENCES roles(id)
 );
+
+CREATE TABLE users_teams_roles (
+        id SERIAL,
+        user_id integer NOT NULL,
+        team_id integer NOT NULL,
+        role_id integer NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (team_id) REFERENCES teams(id),
+	FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+
 
 CREATE TABLE practices_users_availability (
         id SERIAL,
