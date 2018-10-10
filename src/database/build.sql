@@ -22,7 +22,7 @@ DROP TABLE practices_users_availability CASCADE;
 DROP TABLE games_users_attendance CASCADE;
 DROP TABLE games_users_availability CASCADE;
 
-DROP TABLE events_sessions CASCADE;
+DROP TABLE practices_sessions CASCADE;
 DROP TABLE sessions CASCADE;
 
 DROP TABLE uniforms_events CASCADE;
@@ -326,15 +326,15 @@ CREATE TABLE sessions_media (
         PRIMARY KEY (id)
 );
 
-CREATE TABLE events_sessions (
+CREATE TABLE practices_sessions (
         id SERIAL,
-        event_id integer NOT NULL,
-        sessions_id integer NOT NULL,
-        start_time timestamp,
-        end_time timestamp,
+        practice_id integer NOT NULL,
+        session_id integer NOT NULL,
+        start_time timestamp, --if you want for each session
+        end_time timestamp, --if you want for efficiency
         PRIMARY KEY (id),
-	FOREIGN KEY (event_id) REFERENCES events(id),
-	FOREIGN KEY (sessions_id) REFERENCES sessions(id)
+	FOREIGN KEY (practice_id) REFERENCES practices(id),
+	FOREIGN KEY (session_id) REFERENCES sessions(id)
 );
 
 CREATE TABLE availability (
