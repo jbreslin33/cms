@@ -9,12 +9,18 @@ DROP TABLE sessions_media CASCADE;
 DROP TABLE media CASCADE; 
 
 DROP TABLE genders_sessions CASCADE;
+DROP TABLE formations_sessions CASCADE;
+DROP TABLE ages_sessions CASCADE;
+DROP TABLE levels_sessions CASCADE;
+DROP TABLE possesions_sessions CASCADE;
+DROP TABLE zones_sessions CASCADE;
 
 DROP TABLE genders CASCADE;
-DROP TABLE age CASCADE;
-DROP TABLE level CASCADE;
-DROP TABLE possession CASCADE;
-DROP TABLE zone CASCADE;
+DROP TABLE ages CASCADE;
+DROP TABLE levels CASCADE;
+DROP TABLE possessions CASCADE;
+DROP TABLE zones CASCADE;
+DROP TABLE formations CASCADE;
 
 DROP TABLE practices_users_attendance CASCADE;
 DROP TABLE practices_users_availability CASCADE;
@@ -40,7 +46,6 @@ DROP TABLE clubs_users CASCADE;
 DROP TABLE teams_users CASCADE;
 DROP TABLE users CASCADE;
 
-DROP TABLE formations CASCADE;
 DROP TABLE availability CASCADE;
 DROP TABLE attendance CASCADE;
 
@@ -149,28 +154,28 @@ CREATE TABLE formations (
 );
 
 --u3 u4 u19  
-CREATE TABLE age (
+CREATE TABLE ages (
 	id SERIAL,
     	name text UNIQUE, 
 	PRIMARY KEY (id)
 );
 
 --a b c  
-CREATE TABLE level (
+CREATE TABLE levels (
 	id SERIAL,
     	name text UNIQUE, 
 	PRIMARY KEY (id)
 );
 
--- possession 
-CREATE TABLE possession (
+-- possessions 
+CREATE TABLE possessions (
 	id SERIAL,
     	name text UNIQUE, 
 	PRIMARY KEY (id)
 );
 
---  zone
-CREATE TABLE zone (
+--  zones
+CREATE TABLE zones (
 	id SERIAL,
     	name text UNIQUE, 
 	PRIMARY KEY (id)
@@ -312,7 +317,52 @@ CREATE TABLE genders_sessions (
         FOREIGN KEY(session_id) REFERENCES sessions(id)
 );
 
+CREATE TABLE formations_sessions (
+        id SERIAL,
+	formation_id integer,
+	session_id integer,
+        PRIMARY KEY (id),
+        FOREIGN KEY(formation_id) REFERENCES formations(id),
+        FOREIGN KEY(session_id) REFERENCES sessions(id)
+);
 
+
+
+CREATE TABLE ages_sessions (
+        id SERIAL,
+	age_id integer,
+	session_id integer,
+        PRIMARY KEY (id),
+        FOREIGN KEY(age_id) REFERENCES ages(id),
+        FOREIGN KEY(session_id) REFERENCES sessions(id)
+);
+
+CREATE TABLE levels_sessions (
+        id SERIAL,
+	level_id integer,
+	session_id integer,
+        PRIMARY KEY (id),
+        FOREIGN KEY(level_id) REFERENCES levels(id),
+        FOREIGN KEY(session_id) REFERENCES sessions(id)
+);
+
+CREATE TABLE possesions_sessions (
+        id SERIAL,
+	possession_id integer,
+	session_id integer,
+        PRIMARY KEY (id),
+        FOREIGN KEY(possession_id) REFERENCES possessions(id),
+        FOREIGN KEY(session_id) REFERENCES sessions(id)
+);
+
+CREATE TABLE zones_sessions (
+        id SERIAL,
+	zones_id integer,
+	session_id integer,
+        PRIMARY KEY (id),
+        FOREIGN KEY(zones_id) REFERENCES zones(id),
+        FOREIGN KEY(session_id) REFERENCES sessions(id)
+);
 
 -- we are going with a single user table so we do not need multiple logins instead you just need one and choose what role you want to view. 
 CREATE TABLE users (
