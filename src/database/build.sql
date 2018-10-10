@@ -17,8 +17,8 @@ DROP TABLE possession CASCADE;
 DROP TABLE zone CASCADE;
 
 
-DROP TABLE practices_users_availability CASCADE;
-DROP TABLE games_users_availability CASCADE;
+DROP TABLE practices_users_attendance CASCADE;
+DROP TABLE games_users_attendance CASCADE;
 
 DROP TABLE events_sessions CASCADE;
 DROP TABLE sessions CASCADE;
@@ -42,6 +42,7 @@ DROP TABLE home_away CASCADE;
 
 DROP TABLE formations CASCADE;
 DROP TABLE availability CASCADE;
+DROP TABLE attendance CASCADE;
 
 DROP TABLE events CASCADE;
 DROP TABLE event CASCADE;
@@ -340,6 +341,12 @@ CREATE TABLE availability (
         PRIMARY KEY (id)
 );
 
+CREATE TABLE attendance (
+	id SERIAL,
+	name text,
+        PRIMARY KEY (id)
+);
+
 --search fields for sessions
 
 CREATE TABLE genders_sessions (
@@ -416,26 +423,31 @@ CREATE TABLE users_roles (
 	FOREIGN KEY (users_id) REFERENCES users(id),
 	FOREIGN KEY (roles_id) REFERENCES roles(id)
 );
-
-CREATE TABLE practices_users_availability (
+--attendance table????
+--id, user_id, practice_id, availability_id, attendence_id
+CREATE TABLE practices_users_attendance (
         id SERIAL,
         practice_id integer NOT NULL,
        	users_id integer NOT NULL,
 	availability_id integer NOT NULL,
+	attendance_id integer NOT NULL,
         PRIMARY KEY (id),
 	FOREIGN KEY (practice_id) REFERENCES practices(id),
 	FOREIGN KEY (users_id) REFERENCES users(id),
-	FOREIGN KEY (availability_id) REFERENCES availability(id)
+	FOREIGN KEY (availability_id) REFERENCES availability(id),
+	FOREIGN KEY (attendance_id) REFERENCES attendance(id)
 );
 
-CREATE TABLE games_users_availability (
+CREATE TABLE games_users_attendance (
         id SERIAL,
         game_id integer NOT NULL,
        	users_id integer NOT NULL,
 	availability_id integer NOT NULL,
+	attendance_id integer NOT NULL,
         PRIMARY KEY (id),
 	FOREIGN KEY (game_id) REFERENCES games(id),
 	FOREIGN KEY (users_id) REFERENCES users(id),
-	FOREIGN KEY (availability_id) REFERENCES availability(id)
+	FOREIGN KEY (availability_id) REFERENCES availability(id),
+	FOREIGN KEY (attendance_id) REFERENCES attendance(id)
 );
 
