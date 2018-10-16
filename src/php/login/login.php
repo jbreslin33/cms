@@ -1,5 +1,7 @@
 <?php 
 error_log('to of login.php');
+echo $_POST["username"];
+echo $_POST["password"];
 
 class Login 
 {

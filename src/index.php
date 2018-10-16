@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<form action="/php/login/login.php">
-First name: <input type="text" name="FirstName"><br>
-Last name: <input type="text" name="LastName"><br>
+<form action="/php/login/login.php" method="post">
+First name: <input type="text" name="username"><br>
+Last name: <input type="text" name="password"><br>
 <input type="submit" value="Login">
 </form>
 
