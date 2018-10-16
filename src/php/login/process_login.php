@@ -1,8 +1,9 @@
 <?php
 
-include_once(getenv("DOCUMENT_ROOT") . "/php/database/db_connect.php");
+include_once(getenv("DOCUMENT_ROOT") . "/php/database/database.php");
 error_log('home you');
 
-dbConnect();
+$database = new Database;
+$database->query("insert into ages (name) values ('yo')");
 
 ?>
