@@ -1,7 +1,6 @@
 <?php 
-error_log('to of login.php');
-echo $_POST["username"];
-echo $_POST["password"];
+error_log('top of login.php');
+
 
 class Login 
 {
@@ -10,11 +9,12 @@ class Login
 	private $mUsernameDatabase = NULL;
 	private $mPasswordDatabase = NULL;
 
-	private #mLoggedIn = false; 
+	private $mLoggedIn = false; 
 	
 	function __construct() 
 	{
-	
+		$this->mUsernameAttempt = $_POST["username"];
+		echo $this->mUsernameAttempt;	
 	}
 
 	public function processLogin()
@@ -33,6 +33,8 @@ class Login
 		//return $this->mResult;
 	}
 }
+
+$login = new Login();
 
 
 ?>
