@@ -1,1 +1,1 @@
-insert into users (username,password) values ('sbaban','celta');
+insert into users (username,password) values ('jbreslin','mibesfat');
