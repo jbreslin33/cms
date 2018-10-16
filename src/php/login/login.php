@@ -26,9 +26,9 @@ class Login
 		
 		$query = "select id from users where username = '";
 		$query .= $this->mUsername; 
-		$query .= " and password = '";
+		$query .= "' and password = '";
 		$query .= $this->mPassword; 
-		$query .= ";";
+		$query .= "';";
 		
 		$result = $database->query($query);
 		if (pg_num_rows($result) > 0)
