@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form action="/php/login/process_login.php">
+<form action="/php/login/login.php">
 First name: <input type="text" name="FirstName"><br>
 Last name: <input type="text" name="LastName"><br>
 <input type="submit" value="Login">

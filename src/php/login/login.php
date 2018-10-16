@@ -1,4 +1,5 @@
 <?php 
+error_log('to of login.php');
 
 class Login 
 {
@@ -7,28 +8,27 @@ class Login
 	private $mUsernameDatabase = NULL;
 	private $mPasswordDatabase = NULL;
 
-	private mLoggedIn = false; 
+	private #mLoggedIn = false; 
 	
 	function __construct() 
 	{
-		$this->setConnectionString($this->mConnectionString);
-        	$this->mConnection = pg_connect($this->mConnectionString);
+	
 	}
 
 	public function processLogin()
 	{
-		return $this->$mConnection;
+		//return $this->$mConnection;
 	}
 
 	public function setConnectionString($connectionString)
 	{
-		$this->mConnectionString = $connectionString;
+		//$this->mConnectionString = $connectionString;
 	}
 	
 	public function query($query)
 	{
-  		$this->mResult = pg_query($this->mConnection,$query);
-		return $this->mResult;
+  		//$this->mResult = pg_query($this->mConnection,$query);
+		//return $this->mResult;
 	}
 }
 
