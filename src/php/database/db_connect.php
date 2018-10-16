@@ -5,7 +5,11 @@ function dbConnect()
 {
         $conn = pg_connect("host=localhost dbname=cms user=postgres password=mibesfat")
         or die('Could not connect: ' . pg_last_error());
-        return $conn;
+  
+	$query = "insert into error_log (error_time,error,username) values (CURRENT_TIMESTAMP,'YO MON','mE');";
+  	$result = pg_query($conn,$query);
+       
+	 return $conn;
 }
 
 function dbErrorCheck($connection,$resultToCheck)
