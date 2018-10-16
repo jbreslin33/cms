@@ -1,10 +1,6 @@
 <?php 
 include_once(getenv("DOCUMENT_ROOT") . "/php/database/database.php");
 
-//$database = new Database;
-//$database->query("insert into ages (name) values ('yo')");
-
-
 class Login 
 {
 	private $mUsername  = NULL;
@@ -33,28 +29,18 @@ class Login
 		$result = $database->query($query);
 		if (pg_num_rows($result) > 0)
 		{
-			echo "successful login";
+			error_log("successful login");
+			header("Location: http://elacore.org/main/main.php");
+			die();
 		}
 		else
 		{
-			echo "unsuccessful login";
+			error_log("unsuccessful login");
+			header("Location: http://elacore.org/index.php");
 		}
-	}
-
-	public function setConnectionString($connectionString)
-	{
-		//$this->mConnectionString = $connectionString;
-	}
-	
-	public function query($query)
-	{
-  		//$this->mResult = pg_query($this->mConnection,$query);
-		//return $this->mResult;
 	}
 }
 
 $login = new Login();
 
-
 ?>
-
