@@ -1,25 +1,44 @@
 <?php 
-error_log('top of login.php');
+include_once(getenv("DOCUMENT_ROOT") . "/php/database/database.php");
+
+//$database = new Database;
+//$database->query("insert into ages (name) values ('yo')");
 
 
 class Login 
 {
-	private $mUsernameAttempt  = NULL;
-	private $mPasswordAttempt  = NULL;
-	private $mUsernameDatabase = NULL;
-	private $mPasswordDatabase = NULL;
+	private $mUsername  = NULL;
+	private $mPassword  = NULL;
 
 	private $mLoggedIn = false; 
 	
 	function __construct() 
 	{
-		$this->mUsernameAttempt = $_POST["username"];
-		echo $this->mUsernameAttempt;	
+		$this->mUsername = $_POST["username"];
+		$this->mPassword = $_POST["password"];
+
+		$this->processLogin();
 	}
 
 	public function processLogin()
 	{
-		//return $this->$mConnection;
+		$database = new Database;
+		
+		$query = "select id from users where username = '";
+		$query .= $this->mUsername; 
+		$query .= " and password = '";
+		$query .= $this->mPassword; 
+		$query .= ";";
+		
+		$result = $database->query($query);
+		if (pg_num_rows($result) > 0)
+		{
+			echo "successful login";
+		}
+		else
+		{
+			echo "unsuccessful login";
+		}
 	}
 
 	public function setConnectionString($connectionString)
