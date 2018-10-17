@@ -1,21 +1,22 @@
 <?php 
+//just in case start session again????
+//session_start();
+
 include_once(getenv("DOCUMENT_ROOT") . "/php/database/database.php");
 
 class Login 
 {
-	private $mUsername  = NULL;
-	private $mPassword  = NULL;
-
-	private $mLoggedIn = false; 
-	
 	function __construct() 
 	{
-		$this->mUsername = $_POST["username"];
-		$this->mPassword = $_POST["password"];
+		if (isset($_POST['username']))
+		{
+			$_SESSION['username'] = $_POST['username'];
+		}	
+		if (isset($_POST['password']))
+		{
+			$_SESSION['password'] = $_POST['password'];
+		}	
 			
-		$_SESSION["username"] = $this->mUsername;
-		$_SESSION["password"] = $this->mPassword;
-
 		$this->processLogin();
 	}
 
@@ -24,14 +25,16 @@ class Login
 		$database = new Database;
 		
 		$query = "select id from users where username = '";
-		$query .= $this->mUsername; 
+		$query .= $_SESSION['username']; 
 		$query .= "' and password = '";
-		$query .= $this->mPassword; 
+		$query .= $_SESSION['password']; 
 		$query .= "';";
 		
 		$result = $database->query($query);
 		if (pg_num_rows($result) > 0)
 		{
+			$_SESSION["logged_in"] = true;
+
 			$row = pg_fetch_row($result);
 			$_SESSION["user_id"] = $row[0];
 
@@ -40,6 +43,7 @@ class Login
 		}
 		else
 		{
+			$_SESSION["logged_in"] = false;
 			header("Location: http://elacore.org/index.php");
 		}
 	}
