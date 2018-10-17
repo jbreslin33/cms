@@ -55,11 +55,14 @@ class Login
 			$row = pg_fetch_row($result);
 			$_SESSION["user_id"] = $row[0];
 
+			error_log('successful login');
+
 			header("Location: http://elacore.org/main/main.php");
 			die();
 		}
 		else
 		{
+			error_log('unsuccessful login');
 			$_SESSION["logged_in"] = false;
 			header("Location: http://elacore.org/index.php");
 		}
