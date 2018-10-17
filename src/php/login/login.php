@@ -4,20 +4,36 @@
 
 include_once(getenv("DOCUMENT_ROOT") . "/php/database/database.php");
 
+/*
+
+codes
+---------------
+100 success
+101 please provide a username and a password  
+102 please provide a username  
+103 please provide a password  
+104 user does not exist
+105 wrong password
+
+everything else will be done on client
+
+*/
+
 class Login 
 {
 	function __construct() 
 	{
-		if (isset($_POST['username']) && isset($_POST['password']))
+
+		if (!isset($_POST['username']) && !isset($_POST['password']))
 		{
-			$_SESSION['username'] = $_POST['username'];
-			$_SESSION['password'] = $_POST['password'];
+			header("Location: http://elacore.org/index.php?code=101");
 		}	
 		else
 		{
-			header("Location: http://elacore.org/index.php");
+			$_SESSION['username'] = $_POST['username'];
+			$_SESSION['password'] = $_POST['password'];
 		}
-			
+		
 		$this->processLogin();
 	}
 
