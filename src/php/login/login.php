@@ -12,6 +12,9 @@ class Login
 	{
 		$this->mUsername = $_POST["username"];
 		$this->mPassword = $_POST["password"];
+			
+		$_SESSION["username"] = $this->mUsername;
+		$_SESSION["password"] = $this->mPassword;
 
 		$this->processLogin();
 	}
@@ -29,9 +32,6 @@ class Login
 		$result = $database->query($query);
 		if (pg_num_rows($result) > 0)
 		{
-			session_start();
-			$_SESSION["username"] = $this->mUsername;
-			
 			$row = pg_fetch_row($result);
 			$_SESSION["user_id"] = $row[0];
 
