@@ -8,14 +8,15 @@ class Login
 {
 	function __construct() 
 	{
-		if (isset($_POST['username']))
+		if (isset($_POST['username']) && isset($_POST['password']))
 		{
 			$_SESSION['username'] = $_POST['username'];
-		}	
-		if (isset($_POST['password']))
-		{
 			$_SESSION['password'] = $_POST['password'];
 		}	
+		else
+		{
+			header("Location: http://elacore.org/index.php");
+		}
 			
 		$this->processLogin();
 	}
