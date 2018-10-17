@@ -1,1 +1,1 @@
-sudo -u postgres psql -d cms -f src/database/insert.sql
+sudo -u postgres psql -d cms -f ~/sandbox/cms/src/database/insert.sql

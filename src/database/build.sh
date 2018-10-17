@@ -1,1 +1,1 @@
-sudo -u postgres psql -d cms -f src/database/build.sql
+sudo -u postgres psql -d cms -f ~/sandbox/cms/src/database/build.sql

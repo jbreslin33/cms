@@ -29,10 +29,12 @@ class Login
 		$result = $database->query($query);
 		if (pg_num_rows($result) > 0)
 		{
-			$row = pg_fetch_row($result)) {
 			session_start();
 			$_SESSION["username"] = $this->mUsername;
+			
+			$row = pg_fetch_row($result);
 			$_SESSION["user_id"] = $row[0];
+
 			header("Location: http://elacore.org/main/main.php");
 			die();
 		}
