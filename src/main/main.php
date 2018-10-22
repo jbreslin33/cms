@@ -6,11 +6,7 @@
 </head>
 <body>
 
-<form action="/php/login/login.php" method="post">
-First name: <input type="text" name="username"><br>
-Last name: <input type="text" name="password"><br>
-<input type="submit" value="Login">
-</form>
+<p> WELCOME TO CLUB MANAGEMENT SYSTEM! </p>
 
 </body>
 </html>
