@@ -24,15 +24,21 @@ class Login
 	function __construct() 
 	{
 
-		if (!isset($_POST['username']) && !isset($_POST['password']))
-		{
-			header("Location: http://elacore.org/index.php?code=101");
-		}	
-		else
+		if (isset($_POST['username']) && isset($_POST['password']))
 		{
 			$_SESSION['username'] = $_POST['username'];
 			$_SESSION['password'] = $_POST['password'];
 		}
+		if (isset($_GET['username']) && isset($_GET['password']))
+		{
+			$_SESSION['username'] = $_GET['username'];
+			$_SESSION['password'] = $_GET['password'];
+		}
+
+		if (!isset($_SESSION['username']) && !isset($_SESSION['password']))
+		{
+			header("Location: http://elacore.org/index.php?code=101");
+		}	
 		
 		$this->processLogin();
 	}
