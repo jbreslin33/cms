@@ -11,10 +11,16 @@ session_start();
 <body>
 
 <form action="/php/classes/login/login.php" method="post">
-First name: <input type="text" name="username"><br>
-Last name: <input type="text" name="password"><br>
-<input type="submit" value="Login">
+
+<div class="login">
+    <input type="text" placeholder="Email" id="username" name="username">  
+  <input type="password" placeholder="password" id="password" name="password">  
+  <a href="#" class="forgot">forgot password?</a>
+  <input type="submit" value="Sign In">
+</div>
+
 </form>
+<div class="shadow"></div>
 
 </body>
 </html>
